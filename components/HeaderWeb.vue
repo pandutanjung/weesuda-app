@@ -8,11 +8,11 @@
     <div id="navbarNav" class="collapse navbar-collapse">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Review</a>
+          <a class="nav-link active" aria-current="page" href="http://localhost:3000">Review</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Blog</a>
-        </li>
+          <a class="nav-link" href="http://localhost:3000/blog">Blog</a>
+        </li> 
       </ul>
     </div>
   </div>

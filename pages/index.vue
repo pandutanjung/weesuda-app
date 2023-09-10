@@ -1,24 +1,96 @@
 <template>
   <div class="py-4">
     <div class="container">
-      <div class="title border-bottom">
-      <h5>Task</h5>
+      <div class="title border-bottom d-flex align-items-center justify-content-between py-2">
+        <h5>University Review</h5>
+        <div class="d-flex align-items-center">
+          <input
+          v-model="searchQuery"
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          >
+          <div class="d-flex align-items-center justify-content-end w-100">
+          <span class="me-2">View As</span>
+          <button
+            class="btn btn-outline-secondary py-1 px-3"
+            @click="isGrid = !isGrid">
+            {{ isGrid ? 'Grid' : 'List' }}
+          </button>
+        </div>
+        </div>
       </div>
-      <div class="list-task">
-      <div class="item-task d-flex align-items-center border-bottom pt-3 pb-4">
-      <input id="task" type="checkbox" name="status" class="me-2">
-      <div class="title-task">Tugas 1</div>
-      </div>
+      <div clas="list-university row">
+        <!-- <CardItem :university="universities[0]" :isGrid="isGrid" />
+        <CardItem :university="universities[1]" :isGrid="isGrid" />
+        <CardItem :university="universities[2]" :isGrid="isGrid" /> -->
+        <CardItem
+        v-for="(university, i) in resultQuery"
+        :key="i"
+        :university="university"
+        :isGrid="isGrid"
+        />
       </div>
       <div class="action py-2">
-      <a href="#" class="add-button">Add Task</a>
+      <a v-if="!isCreating" href="#" class="add-button"  @click="isCreating = !isCreating">Add University</a>
+      <div v-else class="add-card" >
+        <div class="card mb-2">
+          <div class="card-body d-flex flex-column p-0">
+            <input class="form-control border-0 mb-2" placeholder="University" type="text" >
+            <textarea class="form-control border-0 small" placeholder="Review" rows="3"></textarea>
+          </div>
+        </div>
+          <div class="button-wrapper d-flex">
+              <button class="btn btn-primary me-2">Save</button>
+              <button class="btn btn-outline-secondary" @click="isCreating = !isCreating">Cancel</button>
+          </div>
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
+import CardItem from '~/components/Card/CardItem.vue'
 export default {
-
+  components:{
+    CardItem
+  },
+  data(){
+    return{
+      searchQuery: '',
+      isGrid: true,
+      isCreating: false,  
+      universities: [
+        {
+        name: 'IPB University',
+        review: 'Bagus',
+        },
+        {
+        name: 'STT Nurul Fikri',
+        review: 'Bagus',
+        },
+        {
+        name: 'Universitas Pakuan',
+        review: 'Bagus',
+        }
+      ]
+    }
+  },
+  computed: {
+    resultQuery() {
+      if (this.searchQuery) {
+        return this.universities.filter((item) => {
+          return this.searchQuery
+          .toLowerCase()
+          .split(" ")
+          .every((v) => item.name.toLowerCase().includes(v));
+        });
+      } else {
+        console.log(this.universities)
+        return this.universities
+      }
+    }
+  }
 }
 </script>
 <style>
